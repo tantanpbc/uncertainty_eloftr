@@ -30,21 +30,25 @@ _CN.COARSE.AGG_SIZE0 = 4
 _CN.COARSE.AGG_SIZE1 = 4
 _CN.COARSE.NO_FLASH = False
 _CN.COARSE.ROPE = True
-_CN.COARSE.NPE = [832, 832, 832, 832] # [832, 832, long_side, long_side] Suggest setting based on the long side of the input image, especially when the long_side > 832
+_CN.COARSE.NPE = [832, 832, 832, 832]  # [832, 832, long_side, long_side]
 
 # 3. Coarse-Matching config
 _CN.MATCH_COARSE = CN()
-_CN.MATCH_COARSE.THR = 0.2 # recommend 0.2 for full model and 25 for optimized model
+_CN.MATCH_COARSE.THR = 0.2
 _CN.MATCH_COARSE.BORDER_RM = 2
 _CN.MATCH_COARSE.DSMAX_TEMPERATURE = 0.1
-_CN.MATCH_COARSE.SKIP_SOFTMAX = False # False for full model and True for optimized model
-_CN.MATCH_COARSE.FP16MATMUL = False # False for full model and True for optimized model
-_CN.MATCH_COARSE.TRAIN_COARSE_PERCENT = 0.2  # training tricks: save GPU memory
-_CN.MATCH_COARSE.TRAIN_PAD_NUM_GT_MIN = 200  # training tricks: avoid DDP deadlock
+_CN.MATCH_COARSE.SKIP_SOFTMAX = False
+_CN.MATCH_COARSE.FP16MATMUL = False
+_CN.MATCH_COARSE.TRAIN_COARSE_PERCENT = 0.2
+_CN.MATCH_COARSE.TRAIN_PAD_NUM_GT_MIN = 200
 
 # 4. Fine-Matching config
 _CN.MATCH_FINE = CN()
-_CN.MATCH_FINE.LOCAL_REGRESS_TEMPERATURE = 10.0 # use 10.0 as fine local regress temperature, not 1.0
+_CN.MATCH_FINE.LOCAL_REGRESS_TEMPERATURE = 10.0
 _CN.MATCH_FINE.LOCAL_REGRESS_SLICEDIM = 8
+# ── NEW: uncertainty prediction ──────────────────────────────────────────────
+# False → log-variance derived for free from heatmap spatial entropy (recommended)
+# True  → small learned linear head on the feature slice (add when ECE stays high)
+_CN.MATCH_FINE.PREDICT_VAR = False
 
 full_default_cfg = lower_config(_CN)
