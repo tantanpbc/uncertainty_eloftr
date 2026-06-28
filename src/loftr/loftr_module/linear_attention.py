@@ -23,7 +23,7 @@ def crop_feature(query, key, value, x_mask, source_mask):
 
 def pad_feature(m, mask_h0, mask_w0, x_mask):
     bs, L, H, D = m.size()
-    m = m.view(bs, mask_h0, mask_w0, H, D)
+    m = m.reshape(bs, mask_h0, mask_w0, H, D)
     if mask_h0 != x_mask.size(-2):
         m = torch.cat([m, torch.zeros(m.size(0), x_mask.size(-2)-mask_h0, x_mask.size(-1), H, D, device=m.device, dtype=m.dtype)], dim=1)
     elif mask_w0 != x_mask.size(-1):
